@@ -1,0 +1,11 @@
+[package]
+name = "goat-tracker"
+version = "0.1.0"
+authors = ["Garcia Garcia, Diego (ESI) <diego.garcia-garcia@adp.com>"]
+
+[dependencies]
+rocket = "0.3.16"
+rocket_contrib = "0.3.16"
+rocket_codegen = "0.3.16"
+serde = "1.0.76"
+serde_derive = "1.0.76"
