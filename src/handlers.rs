@@ -1,4 +1,5 @@
 use rocket_contrib::Json;
+use diesel::prelude::*;
 
 use ::db;
 use ::entities::Project;
@@ -11,13 +12,8 @@ use ::schema::project::dsl::*;
 
 
 #[get("/")]
-pub fn index() -> Json<Project> {
-
+pub fn index() -> Json<Vec<Project>> {
     let conn = db::establish_connection();
-    // let result = project
-    //             load::<Project>(&conn).
-    //             expect("Error loading projects");
-
-    let result = project.filter(name.eq("aaa")).load::<Project>(&conn);
-    Json(result)
+    let results = project.filter(name.eq("aaa".to_string())).load::<Project>(&conn).unwrap();
+    Json(results)
 } 

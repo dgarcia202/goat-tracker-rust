@@ -1,5 +1,6 @@
 #![feature(plugin)]
 #![plugin(rocket_codegen)]
+#![allow(proc_macro_derive_resolution_fallback)]
 
 #[macro_use] extern crate serde_derive;
 #[macro_use] extern crate diesel;
