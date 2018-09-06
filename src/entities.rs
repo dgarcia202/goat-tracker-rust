@@ -1,6 +1,7 @@
-#[derive(Serialize)]
+#[allow(proc_macro_derive_resolution_fallback)]
+
+#[derive(Serialize, Queryable)]
 pub struct Project {
-    pub id: u32,
-    pub name: String,
-    pub description: String
+    pub id: String,
+    pub name: String
 }
