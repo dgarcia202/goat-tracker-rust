@@ -1,7 +1,11 @@
 CREATE TABLE project (
-	id TEXT(32) PRIMARY KEY,
+	id TEXT(32) PRIMARY KEY NOT NULL,
 	name TEXT NOT NULL
 );
+
+insert into project values ('066112f771de41b4aba5648b95476992', 'Super Nice Product');
+insert into project values ('88b09cf3900a4d2bac72fabdbe24d300', 'Acme Legacy System');
+insert into project values ('d1d91937138844009a9c8881631bde3a', 'Awesome Office Suite');
 
 CREATE TABLE release (
 	id TEXT(32) PRIMARY KEY,

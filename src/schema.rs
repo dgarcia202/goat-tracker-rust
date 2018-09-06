@@ -30,7 +30,7 @@ table! {
 
 table! {
     project (id) {
-        id -> Nullable<Text>,
+        id -> Text,
         name -> Text,
     }
 }
