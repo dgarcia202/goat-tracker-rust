@@ -9,19 +9,19 @@ use ::entities::{Project, NewProject};
 use ::schema::project::dsl::*;
 
 #[get("/")]
-pub fn get_project_list(conn: DbConn) -> Json<Vec<Project>> {
+pub fn get_all(conn: DbConn) -> Json<Vec<Project>> {
     let results = project.load::<Project>(&*conn).unwrap();
     Json(results)
 } 
 
 #[get("/<project_id>")]
-pub fn get_project(project_id: &RawStr, conn: DbConn) -> Json<Project> {
+pub fn get(project_id: &RawStr, conn: DbConn) -> Json<Project> {
     let result = project.find(project_id.to_string()).first::<Project>(&*conn).unwrap();
     Json(result)
 }
 
 #[post("/", format = "application/json", data = "<project_data>")]
-pub fn new_project(project_data: Json<NewProject>, conn: DbConn) -> Json<Project> {
+pub fn new(project_data: Json<NewProject>, conn: DbConn) -> Json<Project> {
 
     let new_id = Uuid::new_v4().to_string();
 

@@ -20,7 +20,7 @@ use handlers::*;
 fn rocket() -> rocket::Rocket {
     rocket::ignite()
         .manage(db::init_pool())
-        .mount("/projects", routes![get_project_list, get_project, new_project])
+        .mount("/projects", routes![project::get_all, project::get, project::new])
 }
 
 fn main() {
