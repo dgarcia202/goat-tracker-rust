@@ -14,8 +14,11 @@ pub mod entities;
 pub mod handlers;
 pub mod schema;
 
+use handlers::*;
+
 fn rocket() -> rocket::Rocket {
-    rocket::ignite().mount("/", routes![handlers::index])
+    rocket::ignite()
+        .mount("/projects", routes![get_projects, get_project])
 }
 
 fn main() {
