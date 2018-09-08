@@ -1,13 +1,15 @@
 use rocket_contrib::Json;
 use rocket::http::RawStr;
+use diesel::insert_into;
 use diesel::prelude::*;
+use uuid::Uuid;
 
 use ::db::DbConn;
 use ::entities::{Project, NewProject};
 use ::schema::project::dsl::*;
 
 #[get("/")]
-pub fn get_projects(conn: DbConn) -> Json<Vec<Project>> {
+pub fn get_project_list(conn: DbConn) -> Json<Vec<Project>> {
     let results = project.load::<Project>(&*conn).unwrap();
     Json(results)
 } 
@@ -21,8 +23,12 @@ pub fn get_project(project_id: &RawStr, conn: DbConn) -> Json<Project> {
 #[post("/", format = "application/json", data = "<project_data>")]
 pub fn new_project(project_data: Json<NewProject>, conn: DbConn) -> Json<Project> {
 
-    println!("{}", project_data.name);
+    let new_id = Uuid::new_v4().to_string();
 
-    let result = project.find("066112f771de41b4aba5648b95476992".to_string()).first::<Project>(&*conn).unwrap();
+    let _ = insert_into(project)
+                .values((id.eq(new_id.clone()), name.eq(project_data.name.clone())))
+                .execute(&*conn).unwrap();
+
+    let result = project.find(new_id).first::<Project>(&*conn).unwrap();
     Json(result)
 }

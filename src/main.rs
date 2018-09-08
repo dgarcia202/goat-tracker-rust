@@ -8,6 +8,7 @@ extern crate rocket;
 extern crate rocket_contrib;
 extern crate serde;
 extern crate dotenv;
+extern crate uuid;
 
 pub mod db;
 pub mod entities;
@@ -19,7 +20,7 @@ use handlers::*;
 fn rocket() -> rocket::Rocket {
     rocket::ignite()
         .manage(db::init_pool())
-        .mount("/projects", routes![get_projects, get_project, new_project])
+        .mount("/projects", routes![get_project_list, get_project, new_project])
 }
 
 fn main() {
