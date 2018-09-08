@@ -18,6 +18,7 @@ use handlers::*;
 
 fn rocket() -> rocket::Rocket {
     rocket::ignite()
+        .manage(db::init_pool())
         .mount("/projects", routes![get_projects, get_project])
 }
 
