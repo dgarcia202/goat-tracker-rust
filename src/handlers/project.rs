@@ -1,6 +1,6 @@
 use rocket_contrib::Json;
 use rocket::http::RawStr;
-use diesel::insert_into;
+use diesel::{ insert_into, update };
 use diesel::prelude::*;
 use uuid::Uuid;
 
@@ -30,4 +30,15 @@ pub fn new(project_data: Json<Project>, conn: DbConn) -> Json<Project> {
 
     let result = project.find(new_project.id).first::<Project>(&*conn).unwrap();
     Json(result)
+}
+
+#[put("/<project_id>", format = "application/json", data = "<project_data>")]
+pub fn modify(project_id: &RawStr, project_data: Json<Project>, conn: DbConn) -> Json<Project> {
+
+    let updated_project = project_data.into_inner();
+    let target = project.find(project_id.to_string());
+    let _ = update(target).set(&updated_project).execute(&*conn).unwrap();
+
+    let result = project.find(project_id.to_string()).first::<Project>(&*conn).unwrap();
+    Json(result)    
 }
