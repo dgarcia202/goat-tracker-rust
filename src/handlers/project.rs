@@ -5,7 +5,7 @@ use diesel::prelude::*;
 use uuid::Uuid;
 
 use ::db::DbConn;
-use ::entities::{Project, NewProject};
+use ::entities::Project;
 use ::schema::project::dsl::*;
 
 #[get("/")]
@@ -21,14 +21,13 @@ pub fn get(project_id: &RawStr, conn: DbConn) -> Json<Project> {
 }
 
 #[post("/", format = "application/json", data = "<project_data>")]
-pub fn new(project_data: Json<NewProject>, conn: DbConn) -> Json<Project> {
+pub fn new(project_data: Json<Project>, conn: DbConn) -> Json<Project> {
 
-    let new_id = Uuid::new_v4().to_string();
+    let mut new_project = project_data.into_inner();
+    new_project.id = Uuid::new_v4().to_string();
 
-    let _ = insert_into(project)
-                .values((id.eq(new_id.clone()), name.eq(project_data.name.clone())))
-                .execute(&*conn).unwrap();
+    let _ = insert_into(project).values(&new_project).execute(&*conn).unwrap();
 
-    let result = project.find(new_id).first::<Project>(&*conn).unwrap();
+    let result = project.find(new_project.id).first::<Project>(&*conn).unwrap();
     Json(result)
 }
